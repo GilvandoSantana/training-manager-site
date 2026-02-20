@@ -291,27 +291,45 @@ export default function Home() {
     try {
       setIsSyncing(true);
       
-      // Preparar dados para Excel
-      const excelData = employees.map(emp => ({
-        'Nome': emp.name || '',
-        'Cargo': emp.role || '',
-        'Data de Criação': emp.createdAt ? new Date(emp.createdAt).toLocaleDateString('pt-BR') : '',
-        'Última Atualização': emp.updatedAt ? new Date(emp.updatedAt).toLocaleDateString('pt-BR') : '',
-        'Treinamentos': emp.trainings?.length || 0,
-      }));
+      // Preparar dados para Excel - Uma linha por treinamento
+      const excelData: any[] = [];
+      
+      employees.forEach(emp => {
+        if (emp.trainings && emp.trainings.length > 0) {
+          // Se tem treinamentos, cria uma linha para cada um
+          emp.trainings.forEach(training => {
+            excelData.push({
+              'Nome': emp.name || '',
+              'Função': emp.role || '',
+              'Treinamento': training.name || '',
+              'Data de Realização': training.date ? new Date(training.date).toLocaleDateString('pt-BR') : '',
+              'Validade': training.validity ? new Date(training.validity).toLocaleDateString('pt-BR') : '',
+            });
+          });
+        } else {
+          // Se não tem treinamentos, cria uma linha vazia para o colaborador
+          excelData.push({
+            'Nome': emp.name || '',
+            'Função': emp.role || '',
+            'Treinamento': '',
+            'Data de Realização': '',
+            'Validade': '',
+          });
+        }
+      });
 
       // Criar workbook e worksheet
       const ws = XLSX.utils.json_to_sheet(excelData);
       const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Colaboradores');
+      XLSX.utils.book_append_sheet(wb, ws, 'Treinamentos');
       
       // Ajustar largura das colunas
       const colWidths = [
-        { wch: 30 }, // Nome
-        { wch: 20 }, // Cargo
-        { wch: 15 }, // Data de Criação
-        { wch: 18 }, // Última Atualização
-        { wch: 12 }, // Treinamentos
+        { wch: 25 }, // Nome
+        { wch: 20 }, // Função
+        { wch: 30 }, // Treinamento
+        { wch: 18 }, // Data de Realização
+        { wch: 15 }, // Validade
       ];
       ws['!cols'] = colWidths;
       
