@@ -22,6 +22,17 @@ export const appRouter = router({
   }),
 
   employees: router({
+    delete: publicProcedure
+      .input(z.object({ id: z.string() }))
+      .mutation(async ({ input }) => {
+        try {
+          await deleteEmployee(input.id);
+          return { success: true };
+        } catch (error) {
+          console.error("Delete employee error:", error);
+          throw error;
+        }
+      }),
     sync: publicProcedure
       .input(
         z.object({
@@ -81,6 +92,20 @@ export const appRouter = router({
       }
       return result;
     }),
+  }),
+
+  trainings: router({
+    delete: publicProcedure
+      .input(z.object({ id: z.string() }))
+      .mutation(async ({ input }) => {
+        try {
+          await deleteTraining(input.id);
+          return { success: true };
+        } catch (error) {
+          console.error("Delete training error:", error);
+          throw error;
+        }
+      }),
   }),
 
   emailHistory: router({
