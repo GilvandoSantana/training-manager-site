@@ -4,6 +4,6 @@
     "startCommand": "pnpm start",
     "healthcheckPath": "/",
     "healthcheckTimeout": 100,
-    "preDeploy": "pnpm run db:push"
+    "preDeploy": "node init-db.mjs"
   }
 }
