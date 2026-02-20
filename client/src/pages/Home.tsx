@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import type { Employee, FilterType } from '@/lib/types';
 import { getFilteredEmployees, getStatistics } from '@/lib/training-utils';
 import { generateComprehensivePDF, generateFilteredPDF } from '@/lib/pdf-export';
+import * as XLSX from 'xlsx';
 import { seedEmployees } from '@/lib/seed-data';
 import { trpc } from '@/lib/trpc';
 
@@ -289,41 +290,38 @@ export default function Home() {
   const exportData = async () => {
     try {
       setIsSyncing(true);
-      const exportPayload = {
-        version: '1.0',
-        exportDate: new Date().toISOString(),
-        employees: employees,
-      };
+      
+      // Preparar dados para Excel
+      const excelData = employees.map(emp => ({
+        'Nome': emp.name || '',
+        'Cargo': emp.role || '',
+        'Data de Criação': emp.createdAt ? new Date(emp.createdAt).toLocaleDateString('pt-BR') : '',
+        'Última Atualização': emp.updatedAt ? new Date(emp.updatedAt).toLocaleDateString('pt-BR') : '',
+        'Treinamentos': emp.trainings?.length || 0,
+      }));
 
-      const jsonString = JSON.stringify(exportPayload, null, 2);
-      const blob = new Blob([jsonString], { type: 'application/json' });
-
-      if ('showSaveFilePicker' in window) {
-        try {
-          const handle = await (window as any).showSaveFilePicker({
-            suggestedName: `treinamentos_backup_${new Date().toISOString().split('T')[0]}.json`,
-            types: [
-              {
-                description: 'JSON Files',
-                accept: { 'application/json': ['.json'] },
-              },
-            ],
-          });
-
-          const writable = await handle.createWritable();
-          await writable.write(blob);
-          await writable.close();
-          toast.success('Dados exportados com sucesso!');
-        } catch (err: any) {
-          if (err.name !== 'AbortError') {
-            downloadFile(blob);
-          }
-        }
-      } else {
-        downloadFile(blob);
-      }
+      // Criar workbook e worksheet
+      const ws = XLSX.utils.json_to_sheet(excelData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Colaboradores');
+      
+      // Ajustar largura das colunas
+      const colWidths = [
+        { wch: 30 }, // Nome
+        { wch: 20 }, // Cargo
+        { wch: 15 }, // Data de Criação
+        { wch: 18 }, // Última Atualização
+        { wch: 12 }, // Treinamentos
+      ];
+      ws['!cols'] = colWidths;
+      
+      // Gerar arquivo Excel
+      const fileName = `treinamentos_${new Date().toISOString().split('T')[0]}.xlsx`;
+      XLSX.writeFile(wb, fileName);
+      
+      toast.success('Dados exportados para Excel com sucesso!');
     } catch (error) {
-      toast.error('Erro ao exportar dados.');
+      toast.error('Erro ao exportar dados para Excel.');
       console.error(error);
     }
     setIsSyncing(false);
