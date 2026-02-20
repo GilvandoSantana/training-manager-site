@@ -269,19 +269,17 @@ export default function Home() {
     if (!deleteConfirmId) return;
 
     try {
+      const deleteQuery = trpc.employees.delete.useMutation();
+      await deleteQuery.mutateAsync({ id: deleteConfirmId });
+      
       localStorage.removeItem(`training-manager:employee:${deleteConfirmId}`);
-      await loadData();
+      await listQuery.refetch();
+      
       setDeleteConfirmId(null);
       setShowDeleteConfirm(false);
       toast.success('Colaborador excluido com sucesso!');
-      try {
-        await syncMutation.mutateAsync({ employees });
-        setLastSyncTime(new Date());
-        setSyncError(null);
-      } catch (err) {
-        console.error('Erro ao sincronizar imediatamente:', err);
-        setSyncError('Falha na sincronizacao');
-      }
+      setLastSyncTime(new Date());
+      setSyncError(null);
     } catch (error) {
       toast.error('Erro ao excluir colaborador.');
       console.error(error);
