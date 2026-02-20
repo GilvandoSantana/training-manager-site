@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { scheduleTrainingAlerts } from "../email-service";
+import { nanoid } from "nanoid";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -112,14 +113,13 @@ async function startServer() {
       for (const name of employeesList) {
         try {
           await db.insert(employeeTable).values({
+            id: nanoid(),
             name,
             role: ''
           });
           inserted++;
         } catch (error: any) {
-          if (error.code !== 'ER_DUP_ENTRY') {
-            console.error(`[Seed] Error inserting ${name}:`, error.message);
-          }
+          console.error(`[Seed] Error inserting ${name}:`, error.message);
         }
       }
       
