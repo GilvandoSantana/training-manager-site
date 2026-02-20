@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { scheduleTrainingAlerts } from "../email-service";
+import { initializeDatabase } from "./initDb";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -29,6 +30,10 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
+  // Initialize database tables
+  console.log("[Server] Initializing database tables...");
+  await initializeDatabase();
+  
   // Initialize email service
   console.log("[Server] Initializing email service for training alerts...");
   const app = express();
