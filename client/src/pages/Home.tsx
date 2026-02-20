@@ -60,6 +60,7 @@ export default function Home() {
 
   // tRPC mutations and queries
   const syncMutation = trpc.employees.sync.useMutation();
+  const deleteMutation = trpc.employees.delete.useMutation();
   const listQuery = trpc.employees.list.useQuery(undefined, {
     refetchInterval: 5000, // Fetch from server every 5 seconds
     refetchOnWindowFocus: true,
@@ -269,8 +270,7 @@ export default function Home() {
     if (!deleteConfirmId) return;
 
     try {
-      const deleteQuery = trpc.employees.delete.useMutation();
-      await deleteQuery.mutateAsync({ id: deleteConfirmId });
+      await deleteMutation.mutateAsync({ id: deleteConfirmId });
       
       localStorage.removeItem(`training-manager:employee:${deleteConfirmId}`);
       await listQuery.refetch();
