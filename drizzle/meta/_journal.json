@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1771437675731,
+      "tag": "0000_fantastic_ultron",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1771437768864,
+      "tag": "0001_chemical_boom_boom",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1771441541199,
+      "tag": "0002_cool_echo",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1771449943020,
+      "tag": "0003_acoustic_weapon_omega",
+      "breakpoints": true
+    }
+  ]
+}
