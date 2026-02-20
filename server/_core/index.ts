@@ -1,4 +1,3 @@
-import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import net from "net";
@@ -8,7 +7,6 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { scheduleTrainingAlerts } from "../email-service";
-import { initializeDatabase } from "./initDb";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -30,22 +28,31 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
-  // Initialize database tables
-  console.log("[Server] Initializing database tables...");
-  await initializeDatabase();
+  // Initialize database connection and run migrations
+  console.log("[Server] Initializing database...");
+  const { getDb } = await import("../db");
+  try {
+    const db = await getDb();
+    if (db) {
+      // Run migrations using Drizzle ORM
+      try {
+        const { migrate } = await import("drizzle-orm/mysql2/migrator");
+        console.log("[Server] Running database migrations...");
+        await migrate(db, { migrationsFolder: "./drizzle" });
+        console.log("[Server] Migrations completed successfully");
+      } catch (migrationError) {
+        console.warn("[Server] Migration warning:", migrationError);
+      }
+      console.log("[Server] Database connected successfully");
+    }
+  } catch (error) {
+    console.warn("[Server] Database connection warning:", error);
+  }
   
   // Initialize email service
   console.log("[Server] Initializing email service for training alerts...");
   const app = express();
   
-  // Initialize database connection early
-  const { getDb } = await import("../db");
-  try {
-    await getDb();
-    console.log("[Server] Database connected successfully");
-  } catch (error) {
-    console.warn("[Server] Database connection warning:", error);
-  }
   const server = createServer(app);
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
