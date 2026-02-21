@@ -41,6 +41,8 @@ export const appRouter = router({
               id: z.string(),
               name: z.string(),
               role: z.string(),
+              dateOfBirth: z.string().optional().nullable(),
+              educationLevel: z.enum(["Ensino Fundamental", "Ensino Médio", "Ensino Técnico", "Ensino Superior"]).optional().nullable(),
               trainings: z.array(
                 z.object({
                   id: z.string(),
