@@ -308,6 +308,7 @@ export default function Home() {
       // Preparar dados para Excel - Uma linha por treinamento
       const excelData: any[] = [];
       console.log('Processando', dataToExport.length, 'colaboradores');
+      console.log('Primeiro colaborador:', dataToExport[0]);
       
       dataToExport.forEach(emp => {
         if (emp.trainings && emp.trainings.length > 0) {
@@ -317,8 +318,8 @@ export default function Home() {
               'Nome': emp.name || '',
               'Função': emp.role || '',
               'Treinamento': training.name || '',
-              'Data de Realização': training.date ? new Date(training.date).toLocaleDateString('pt-BR') : '',
-              'Validade': training.validity ? new Date(training.validity).toLocaleDateString('pt-BR') : '',
+              'Data de Realização': training.completionDate ? new Date(training.completionDate).toLocaleDateString('pt-BR') : '',
+              'Validade': training.expirationDate ? new Date(training.expirationDate).toLocaleDateString('pt-BR') : '',
             });
           });
         } else {
@@ -351,6 +352,7 @@ export default function Home() {
       // Gerar arquivo Excel
       const fileName = `treinamentos_${new Date().toISOString().split('T')[0]}.xlsx`;
       console.log('Gerando arquivo:', fileName, 'com', excelData.length, 'linhas');
+      console.log('Primeiras linhas do Excel:', excelData.slice(0, 3));
       XLSX.writeFile(wb, fileName);
       
       toast.success('Dados exportados para Excel com sucesso!');
