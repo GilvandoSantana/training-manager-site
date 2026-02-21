@@ -9,6 +9,8 @@ export interface Employee {
   id: string;
   name: string;
   role: string;
+  dateOfBirth?: string;
+  educationLevel?: 'Ensino Fundamental' | 'Ensino Médio' | 'Ensino Técnico' | 'Ensino Superior';
   trainings: Training[];
 }
 
