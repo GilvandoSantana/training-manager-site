@@ -63,13 +63,23 @@ export default function Header({ onNewEmployee, onExport, onImport, onExportPDF,
             </button>
 
             <button
+              onClick={onExport}
+              disabled={isSyncing}
+              className="bg-white/15 hover:bg-white/25 border border-white/20 disabled:opacity-50 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-lg hover:shadow-xl font-semibold text-sm"
+              title="Exportar dados para Excel"
+            >
+              <Download size={18} />
+              Excel
+            </button>
+
+            <button
               onClick={onExcelImport}
               disabled={isSyncing}
               className="bg-white/15 hover:bg-white/25 border border-white/20 disabled:opacity-50 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-lg hover:shadow-xl font-semibold text-sm"
               title="Importar dados do Excel"
             >
               <Upload size={18} />
-              Excel
+              Importar
             </button>
 
             <button
