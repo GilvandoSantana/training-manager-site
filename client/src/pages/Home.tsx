@@ -291,6 +291,11 @@ export default function Home() {
     try {
       setIsSyncing(true);
       
+      // Debug: log dos dados disponíveis
+      console.log('exportData chamada');
+      console.log('listQuery.data:', listQuery.data);
+      console.log('employees state:', employees);
+      
       // Forçar recarregamento dos dados do servidor antes de exportar
       if (listQuery.data && listQuery.data.length > 0) {
         setEmployees(listQuery.data as Employee[]);
@@ -298,9 +303,11 @@ export default function Home() {
       
       // Usar os dados mais recentes (que podem ter sido atualizados acima)
       const dataToExport = listQuery.data && listQuery.data.length > 0 ? (listQuery.data as Employee[]) : employees;
+      console.log('dataToExport:', dataToExport);
       
       // Preparar dados para Excel - Uma linha por treinamento
       const excelData: any[] = [];
+      console.log('Processando', dataToExport.length, 'colaboradores');
       
       dataToExport.forEach(emp => {
         if (emp.trainings && emp.trainings.length > 0) {
@@ -343,14 +350,16 @@ export default function Home() {
       
       // Gerar arquivo Excel
       const fileName = `treinamentos_${new Date().toISOString().split('T')[0]}.xlsx`;
+      console.log('Gerando arquivo:', fileName, 'com', excelData.length, 'linhas');
       XLSX.writeFile(wb, fileName);
       
       toast.success('Dados exportados para Excel com sucesso!');
     } catch (error) {
       toast.error('Erro ao exportar dados para Excel.');
-      console.error(error);
+      console.error('Erro na exportação:', error);
+    } finally {
+      setIsSyncing(false);
     }
-    setIsSyncing(false);
   };
 
   const downloadFile = (blob: Blob) => {
