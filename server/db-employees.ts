@@ -18,6 +18,8 @@ export async function upsertEmployee(employee: InsertEmployee): Promise<void> {
       set: {
         name: employee.name,
         role: employee.role,
+        dateOfBirth: employee.dateOfBirth,
+        educationLevel: employee.educationLevel,
         updatedAt: new Date(),
       },
     });
