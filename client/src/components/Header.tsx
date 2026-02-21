@@ -3,19 +3,21 @@
  * Header: Application header with hero banner, title, and action buttons
  */
 
-import { Plus, Download, Shield, FileText } from 'lucide-react';
+import { Plus, Download, Shield, FileText, Printer } from 'lucide-react';
+import PrintButtonWithFilter from './PrintButtonWithFilter';
 
 interface HeaderProps {
   onNewEmployee: () => void;
   onExport: () => void;
   onExportPDF: () => void;
+  onPrintFiltered: (filterType: FilterType) => void;
   isSyncing: boolean;
   employeeCount: number;
 }
 
 const HERO_IMAGE = 'https://private-us-east-1.manuscdn.com/sessionFile/0sxYxMlkBINnWNXBvTncJN/sandbox/GjMkiOLADQ2vFWSdbJgtvK-img-1_1771348556000_na1fn_aGVyby1iYW5uZXI.jpg?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvMHN4WXhNbGtCSU5uV05YQnZUbmNKTi9zYW5kYm94L0dqTWtpT0xBRFEydkZXU2RiSmd0dkstaW1nLTFfMTc3MTM0ODU1NjAwMF9uYTFmbl9hR1Z5YnkxaVlXNXVaWEkuanBnP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=e-BPZiMwj5eq4SfRADsAIH2sR1zY3DocWIco-kfjdltyLzLXztqW-PUDVYs63SrcEnJEaOtjZoLBSYe8FrrpZZDBbx4bABbITOoHWlO2jAdeKcKq1mBobJSdX8OsF5LbId6lpMIy3cEAXySccYx46Uvtatu0Un514z6WM-FgWh-ub9tsYkg5zf-otk3gKXhwo6ZKijEFbOZkn4zcXbDtnhgfEGQ1S~X6uFRNZHfWwpXn0VNqxqM1lMNWAfwSy7DeqNS4mm4an86TtKBvXjcFlOLuZy5i~CXV4YV9ICmLv77mgd5vtHvYHyYWky~F9dHNIHAxg2N7E1A5weQHlQ1FsA__';
 
-export default function Header({ onNewEmployee, onExport, onExportPDF, isSyncing, employeeCount }: HeaderProps) {
+export default function Header({ onNewEmployee, onExport, onExportPDF, onPrintFiltered, isSyncing, employeeCount }: HeaderProps) {
   return (
     <div className="relative rounded-2xl overflow-hidden shadow-lg mb-8 animate-fade-in-up">
       {/* Background Image */}
@@ -68,6 +70,8 @@ export default function Header({ onNewEmployee, onExport, onExportPDF, isSyncing
               <Download size={18} />
               Excel
             </button>
+
+            <PrintButtonWithFilter onPrint={onPrintFiltered} isSyncing={isSyncing} />
 
             <button
               onClick={onNewEmployee}
