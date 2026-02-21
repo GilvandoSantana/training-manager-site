@@ -291,10 +291,18 @@ export default function Home() {
     try {
       setIsSyncing(true);
       
+      // Forçar recarregamento dos dados do servidor antes de exportar
+      if (listQuery.data && listQuery.data.length > 0) {
+        setEmployees(listQuery.data as Employee[]);
+      }
+      
+      // Usar os dados mais recentes (que podem ter sido atualizados acima)
+      const dataToExport = listQuery.data && listQuery.data.length > 0 ? (listQuery.data as Employee[]) : employees;
+      
       // Preparar dados para Excel - Uma linha por treinamento
       const excelData: any[] = [];
       
-      employees.forEach(emp => {
+      dataToExport.forEach(emp => {
         if (emp.trainings && emp.trainings.length > 0) {
           // Se tem treinamentos, cria uma linha para cada um
           emp.trainings.forEach(training => {
