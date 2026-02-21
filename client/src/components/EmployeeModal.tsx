@@ -18,7 +18,9 @@ interface EmployeeModalProps {
 
 export default function EmployeeModal({ isOpen, employee, onSave, onClose }: EmployeeModalProps) {
   const [name, setName] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [educationLevel, setEducationLevel] = useState<"Ensino Fundamental" | "Ensino Médio" | "Ensino Técnico" | "Ensino Superior" | "">("");
   const [showCustomRole, setShowCustomRole] = useState(false);
   const [trainings, setTrainings] = useState<Training[]>([]);
 
@@ -33,11 +35,15 @@ export default function EmployeeModal({ isOpen, employee, onSave, onClose }: Emp
     if (employee) {
       setName(employee.name);
       setRole(employee.role);
+      setDateOfBirth(employee.dateOfBirth || "");
+      setEducationLevel(employee.educationLevel || "");
       setShowCustomRole(!PREDEFINED_ROLES.includes(employee.role as any));
       setTrainings(employee.trainings || []);
     } else {
       setName('');
-      setRole('');
+      setRole("");
+      setDateOfBirth("");
+      setEducationLevel("");
       setShowCustomRole(false);
       setTrainings([]);
     }
@@ -122,6 +128,8 @@ export default function EmployeeModal({ isOpen, employee, onSave, onClose }: Emp
       id: employee?.id || Date.now().toString(),
       name: name.trim(),
       role: role.trim(),
+      dateOfBirth: dateOfBirth || undefined,
+      educationLevel: educationLevel || undefined,
       trainings,
     });
   };
@@ -192,6 +200,35 @@ export default function EmployeeModal({ isOpen, employee, onSave, onClose }: Emp
                 placeholder="Digite a função personalizada"
               />
             )}
+          </div>
+
+          {/* Date of Birth */}
+          <div>
+            <label className="block text-foreground font-semibold mb-2 text-sm">
+              Data de Nascimento
+            </label>
+            <input
+              type="date"
+              value={dateOfBirth}
+              onChange={(e) => setDateOfBirth(e.target.value)}
+              className="w-full border-2 border-input rounded-lg p-3 focus:border-orange focus:outline-none bg-background text-foreground transition-colors"
+            />
+          </div>
+
+          {/* Education Level */}
+          <div>
+            <label className="block text-foreground font-semibold mb-2 text-sm">Nível de Escolaridade</label>
+            <select
+              value={educationLevel}
+              onChange={(e) => setEducationLevel(e.target.value as "Ensino Fundamental" | "Ensino Médio" | "Ensino Técnico" | "Ensino Superior" | "")}
+              className="w-full border-2 border-input rounded-lg p-3 focus:border-orange focus:outline-none bg-background text-foreground transition-colors"
+            >
+              <option value="">Selecione o nível de escolaridade</option>
+              <option value="Ensino Fundamental">Ensino Fundamental</option>
+              <option value="Ensino Médio">Ensino Médio</option>
+              <option value="Ensino Técnico">Ensino Técnico</option>
+              <option value="Ensino Superior">Ensino Superior</option>
+            </select>
           </div>
 
           {/* Add Training Section */}
