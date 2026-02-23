@@ -4,7 +4,12 @@
  */
 
 
+
+
 import { Plus, Download, Shield, FileText, Printer } from 'lucide-react';
+
+
+
 
 
 
@@ -18,7 +23,11 @@ interface HeaderProps {
 }
 
 
+
+
 const HERO_IMAGE = 'https://private-us-east-1.manuscdn.com/sessionFile/0sxYxMlkBINnWNXBvTncJN/sandbox/GjMkiOLADQ2vFWSdbJgtvK-img-1_1771348556000_na1fn_aGVyby1iYW5uZXI.jpg?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvMHN4WXhNbGtCSU5uV05YQnZUbmNKTi9zYW5kYm94L0dqTWtpT0xBRFEydkZXU2RiSmd0dkstaW1nLTFfMTc3MTM0ODU1NjAwMF9uYTFmbl9hR1Z5YnkxaVlXNXVaWEkuanBnP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=e-BPZiMwj5eq4SfRADsAIH2sR1zY3DocWIco-kfjdltyLzLXztqW-PUDVYs63SrcEnJEaOtjZoLBSYe8FrrpZZDBbx4bABbITOoHWlO2jAdeKcKq1mBobJSdX8OsF5LbId6lpMIy3cEAXySccYx46Uvtatu0Un514z6WM-FgWh-ub9tsYkg5zf-otk3gKXhwo6ZKijEFbOZkn4zcXbDtnhgfEGQ1S~X6uFRNZHfWwpXn0VNqxqM1lMNWAfwSy7DeqNS4mm4an86TtKBvXjcFlOLuZy5i~CXV4YV9ICmLv77mgd5vtHvYHyYWky~F9dHNIHAxg2N7E1A5weQHlQ1FsA__';
+
+
 
 
 export default function Header({ onNewEmployee, onExport, onExportPDF, onPrintFiltered, isSyncing, employeeCount }: HeaderProps) {
@@ -33,6 +42,8 @@ export default function Header({ onNewEmployee, onExport, onExportPDF, onPrintFi
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/85 to-navy/60" />
       </div>
+
+
 
 
       {/* Content */}
@@ -56,6 +67,8 @@ export default function Header({ onNewEmployee, onExport, onExportPDF, onPrintFi
           </div>
 
 
+
+
           <div className="flex flex-wrap gap-2.5">
             <button
               onClick={onExportPDF}
@@ -68,10 +81,10 @@ export default function Header({ onNewEmployee, onExport, onExportPDF, onPrintFi
             </button>
 
 
-            <button
-              onClick={onExport}
-              disabled={isSyncing}
-              className="bg-white/15 hover:bg-white/25 border border-white/20 disabled:opacity-50 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-lg hover:shadow-xl font-semibold text-sm"
-              title="Exportar dados para Excel"
-            >
-              <Download size={18} />
+
+
+</div>
+</div>
+</div>
+);
+}
