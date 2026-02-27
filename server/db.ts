@@ -9,11 +9,14 @@ let _db: ReturnType<typeof drizzle> | null = null;
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
+      console.log("[Database] Attempting to connect with DATABASE_URL:", process.env.DATABASE_URL ? "[REDACTED]" : "[NOT SET]");
       _db = drizzle(process.env.DATABASE_URL);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
     }
+  } else if (!_db) {
+      console.log("[Database] DATABASE_URL is not set in environment variables");
   }
   return _db;
 }
@@ -88,5 +91,3 @@ export async function getUserByOpenId(openId: string) {
 
   return result.length > 0 ? result[0] : undefined;
 }
-
-// TODO: add feature queries here as your schema grows.
