@@ -19,6 +19,7 @@ interface EmployeeModalProps {
 export default function EmployeeModal({ isOpen, employee, onSave, onClose }: EmployeeModalProps) {
   const [name, setName] = useState('');
   const [registration, setRegistration] = useState('');
+  const [educationLevel, setEducationLevel] = useState('');
   const [role, setRole] = useState('');
   const [showCustomRole, setShowCustomRole] = useState(false);
   const [trainings, setTrainings] = useState<Training[]>([]);
@@ -34,12 +35,14 @@ export default function EmployeeModal({ isOpen, employee, onSave, onClose }: Emp
     if (employee) {
       setName(employee.name);
       setRegistration(employee.registration || '');
+      setEducationLevel(employee.educationLevel || '');
       setRole(employee.role);
       setShowCustomRole(!PREDEFINED_ROLES.includes(employee.role as any));
       setTrainings(employee.trainings || []);
     } else {
       setName('');
       setRegistration('');
+      setEducationLevel('');
       setRole('');
       setShowCustomRole(false);
       setTrainings([]);
@@ -125,6 +128,7 @@ export default function EmployeeModal({ isOpen, employee, onSave, onClose }: Emp
       id: employee?.id || Date.now().toString(),
       name: name.trim(),
       registration: registration.trim() || undefined,
+      educationLevel: educationLevel || undefined,
       role: role.trim(),
       trainings,
     });
@@ -183,6 +187,23 @@ export default function EmployeeModal({ isOpen, employee, onSave, onClose }: Emp
                 placeholder="Número da matrícula"
               />
             </div>
+          </div>
+
+          {/* Education Level */}
+          <div>
+            <label className="block text-foreground font-semibold mb-2 text-sm">Nível de Escolaridade</label>
+            <select
+              value={educationLevel}
+              onChange={(e) => setEducationLevel(e.target.value)}
+              className="w-full border-2 border-input rounded-lg p-3 focus:border-orange focus:outline-none bg-background text-foreground transition-colors"
+            >
+              <option value="">Selecione a escolaridade</option>
+              <option value="Ensino Fundamental">Ensino Fundamental</option>
+              <option value="Ensino Médio">Ensino Médio</option>
+              <option value="Ensino Técnico">Ensino Técnico</option>
+              <option value="Ensino Superior">Ensino Superior</option>
+              <option value="Pós-Graduação">Pós-Graduação</option>
+            </select>
           </div>
 
           {/* Role */}

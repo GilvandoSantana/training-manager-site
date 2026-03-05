@@ -65,6 +65,12 @@ export default function EmployeeCard({ employee, index, onEdit, onDelete, onView
                 )}
                 <span>{employee.role}</span>
               </div>
+              {employee.educationLevel && (
+                <p className="text-white/50 text-[10px] mt-0.5 flex items-center gap-1">
+                  <span className="w-1 h-1 rounded-full bg-white/30" />
+                  {employee.educationLevel}
+                </p>
+              )}
             </div>
           </div>
         </div>
