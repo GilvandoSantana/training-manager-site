@@ -577,10 +577,9 @@ export default function Home() {
         )}
 
         {/* Footer */}
-        <div className="mt-12 pb-4 text-center">
-          <p className="text-muted-foreground text-xs">
-            Gestão de Treinamentos &mdash; Controle de segurança industrial
-            {isSyncing && ' • Sincronizando...'}
+        <div className="mt-12 pb-8 text-center">
+          <p className="text-muted-foreground text-xs font-medium">
+            Gestão de Treinamentos
           </p>
         </div>
       </div>
