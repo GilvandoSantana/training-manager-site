@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, date } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -32,6 +32,10 @@ export const employees = mysqlTable("employees", {
   id: varchar("id", { length: 64 }).primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   registration: varchar("registration", { length: 50 }),
+  dateOfBirth: varchar("dateOfBirth", { length: 10 }),
+  educationLevel: mysqlEnum("educationLevel", ['Ensino Fundamental', 'Ensino Médio', 'Ensino Técnico', 'Ensino Superior']),
+  date_of_birth: date("date_of_birth"),
+  education_level: mysqlEnum("education_level", ['Ensino fundamental', 'Ensino Médio', 'Ensino Técnico', 'Ensino Superior']),
   role: varchar("role", { length: 255 }).default("").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
