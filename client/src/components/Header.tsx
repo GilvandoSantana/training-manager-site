@@ -50,9 +50,17 @@ export default function Header({ onNewEmployee, onExport, onExportPDF, isSyncing
 
           <div className="flex flex-wrap gap-2.5">
             <button
+              onClick={onNewEmployee}
+              className="bg-orange hover:bg-orange-light text-white px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-lg hover:shadow-xl font-bold text-sm order-first"
+            >
+              <Plus size={18} />
+              Novo Colaborador
+            </button>
+
+            <button
               onClick={onExportPDF}
               disabled={isSyncing}
-              className="bg-orange hover:bg-orange-light disabled:opacity-50 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-lg hover:shadow-xl font-semibold text-sm"
+              className="bg-white/15 hover:bg-white/25 border border-white/20 disabled:opacity-50 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-lg hover:shadow-xl font-semibold text-sm"
               title="Exportar relatório em PDF"
             >
               <FileText size={18} />
@@ -67,14 +75,6 @@ export default function Header({ onNewEmployee, onExport, onExportPDF, isSyncing
             >
               <Download size={18} />
               Excel
-            </button>
-
-            <button
-              onClick={onNewEmployee}
-              className="bg-orange hover:bg-orange-light text-white px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-lg hover:shadow-xl font-bold text-sm"
-            >
-              <Plus size={18} />
-              Novo Colaborador
             </button>
           </div>
         </div>
